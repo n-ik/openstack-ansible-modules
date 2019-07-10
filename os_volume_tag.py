@@ -50,8 +50,7 @@ EXAMPLES = '''
   os_volume_tag:
     volume: "{{ volume_id }}"
     state: present
-    tags:
-      - {"key1":"value1","key2":"value2"}
+    tags: {"key1":"value1","key2":"value2"}
 '''
 
 RETURN = '''
