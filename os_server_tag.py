@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8 -*-
 
-# (c) 2019, Dominik Stucki <stucki@puzzle.ch>
+# (c) 2019, Dominik Stucki <mail@nikspace.ch>
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
@@ -19,7 +19,7 @@ DOCUMENTATION = '''
 module: os_server_tag
 short_description: Manage server tags
 extends_documentation_fragment: openstack
-version_added: "2.8"
+version_added: "2.10"
 author: Dominik Stucki (@n-ik)
 description:
     - set or delete tags on the instance
@@ -28,21 +28,25 @@ options:
       description:
         - Name or ID of the server
       required: true
+      type: str
    state:
      description:
        - Should the resource be present or absent.
      choices: [ present, absent ]
      default: present
+     type: str
    tags:
      description:
        - Key and value for tags
      required: true
+     type: list
    availability_zone:
      description:
        - Ignored. Present for backwards compatibility
+     type: str
 requirements:
     - "python >= 2.7"
-    - "openstacksdk"
+    - "openstacksdk >= 0.21.0"
 '''
 EXAMPLES = '''
 ---
@@ -60,7 +64,6 @@ server:
     returned: success
     type: str
     sample: 2f66c03e-a9ab-414c-925a-03eb14871456
-
 tags:
     description: tags.
     returned: success
@@ -85,7 +88,7 @@ def main():
     argument_spec = openstack_full_argument_spec(
         server=dict(required=True),
         state=dict(default='present', choices=['absent', 'present']),
-        tags=dict(default=[], type='list'),
+        tags=dict(required=True, type='list'),
     )
 
     module_kwargs = openstack_module_kwargs()
